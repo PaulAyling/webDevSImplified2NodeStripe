@@ -1,4 +1,5 @@
 # Setup
+take from https://www.youtube.com/watch?v=mI_-1tbIXQI&list=PLZlA0Gpn_vH_uZs4vJMIhcinABSTUH2bY&index=2
 
 ## References
 
@@ -7,7 +8,6 @@ https://www.markdownguide.org/basic-syntax
 ## Git Script
 
 ```
-
 git init
 git add .
 git commit -m "first commit"
@@ -22,8 +22,11 @@ git push -u origin main
 npm init
 
 ## Step 2
-
-Go here https://nodejs.org/en/about/ and copy code below into server.js
+Install dependencies
+```
+npm install express ejs stripe --save
+npm install dotenv --save-dev
+```
 
 
 
