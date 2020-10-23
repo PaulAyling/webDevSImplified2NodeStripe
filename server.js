@@ -8,11 +8,26 @@ const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 console.log('stripe Public key', stripePublicKey)
 console.log('stripe secret key', stripeSecretKey)
 
+
 const express = require('express')
-//same as create server
 const app = express()
+//read files
+const fs = require('fs')
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+
+app.get('/store', function(req,res){
+  fs.readFile('items.json', function(error,data){
+    if (error){
+      res.status(500).end()
+    } else {
+      //pass down content
+      res.render('store.ejs', {
+        items: JSON.parse(data)
+      })
+    }
+  })
+})
 
 app.listen(3000)

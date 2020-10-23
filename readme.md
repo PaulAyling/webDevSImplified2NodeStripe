@@ -43,3 +43,5 @@ Create a server.js file and create server using express
 setup server variables using env and get testing key from stripe
 https://www.youtube.com/watch?v=UxpgwkiA5OM
 
+## Step 5
+setup pages using ejs 
