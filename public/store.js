@@ -32,7 +32,29 @@ var stripeHandler = StripeCheckout.configure({
     token: function(token) {
         console.log('Stripehandler Ran token: ', token)
         var items = []
-        var it
+        var cartItemsContainer = document.getElementsByClassName('cart-items')[0]
+        var cartRows = cartItemsContainer.getElementsByClassName('cart-row')
+        for (var i = 0; i< cartRows.length; i++){
+            var cartRow = cartRows[i]
+            var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
+            var quantity = quantityElement.value
+            var id = cartRow.dataset.itemId
+            items.push({
+                id:id,
+                quantity:quantity
+            })
+        }
+        fetch('/purchase', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            },
+            body: JSON.stringify({
+                stripeTokenId: token.id,
+                items: items
+            })
+        })
 
 
     }
@@ -72,7 +94,8 @@ function addToCartClicked(event) {
     var shopItem = button.parentElement.parentElement
     var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText
     var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
-    var imageSrc = shopItem.dataset.itemId
+    var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
+    var id = shopItem.dataset.itemId
     addItemToCart(title, price, imageSrc , id)
     updateCartTotal()
 }
