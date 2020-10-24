@@ -35,6 +35,7 @@ app.get('/store', function(req,res){
 
 app.post('/purchase', function(req,res){
   fs.readFile('items.json', function(error,data){
+ 
     if (error){
       res.status(500).end()
     } else {
@@ -42,20 +43,27 @@ app.post('/purchase', function(req,res){
      const itemsJson = JSON.parse(data)
      const itemsArray = itemsJson.music.concat(itemsJson.merch)
      let total = 0
-     request.body.items.forEach(function(item){
+
+     //console.log('requestBody', req.body)
+     req.body.items.forEach(function(item){
+  
        const itemJson = itemsArray.find(function(i) {
          return i.id == item.id
        })
        total= total + itemJson.price * item.quantity
      })
+     console.log('ran to here')
+     console.log('response:', req.body.stripeTokenId)
+     //console.log('response:', res)
      stripe.charges.create({
        amount:total,
-       source: request.body.stripTokenId,
+       source: req.body.stripeTokenId,
        currency:'usd'
      }).then(function(){
        console.log('charge successfull')
        res.json({ message:'succesfully purchased items'})
      }).catch(function(){
+
        console.log('charge failed')
        res.status(500).end()
      })
